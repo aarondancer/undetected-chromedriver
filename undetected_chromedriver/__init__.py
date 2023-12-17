@@ -274,9 +274,7 @@ class Chrome(selenium.webdriver.chrome.webdriver.WebDriver):
 
         if not options.debugger_address:
             debug_port = (
-                port
-                if port != 0
-                else selenium.webdriver.common.service.utils.free_port()
+                selenium.webdriver.common.service.utils.free_port()
             )
             debug_host = "127.0.0.1"
             options.debugger_address = "%s:%d" % (debug_host, debug_port)
@@ -454,7 +452,7 @@ class Chrome(selenium.webdriver.chrome.webdriver.WebDriver):
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                close_fds=IS_POSIX,
+                close_fds=IS_POSIX
             )
             self.browser_pid = browser.pid
 
@@ -462,6 +460,8 @@ class Chrome(selenium.webdriver.chrome.webdriver.WebDriver):
         service = selenium.webdriver.chromium.service.ChromiumService(
             self.patcher.executable_path
         )
+
+        service.port = port
 
         super(Chrome, self).__init__(
             service=service,
